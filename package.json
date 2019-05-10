@@ -1,0 +1,35 @@
+{
+  "name": "cordova-plugin-sumup",
+  "description": "Cordova plugin for SumUp SDK integration",
+  "author": "mariusbackes",
+  "license": "MIT",
+  "module": "./www/sumup.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/mariusbackes/cordova-plugin-sumup",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mariusbackes/cordova-plugin-sumup.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mariusbackes/cordova-plugin-sumup.git/issues"
+  },
+  "cordova": {
+    "id": "cordova-plugin-sumup",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "sumup",
+    "creditcard",
+    "debitcard",
+    "nfc",
+    "card",
+    "terminal",
+    "pay"
+  ],
+  "engines": {
+    "cordova": ">=6.3.0"
+  },
+  "typings": "./www/sumup.d.ts"
+}

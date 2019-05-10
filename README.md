@@ -1,1 +1,1 @@
-# cordova-plugin-sumup
+# Cordova plugin for SumUp SDK
