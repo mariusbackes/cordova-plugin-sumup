@@ -27,5 +27,96 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SumUp extends CordovaPlugin {
-    // TODO
+
+    // SumUp Methods
+    public enum Action {
+        login,
+        auth,
+        getSettings,
+        logout,
+        isLoggedIn,
+        prepare,
+        close,
+        pay
+    }
+    
+    private static final int REQUEST_CODE_LOGIN = 1;
+    private static final int REQUEST_CODE_PAYMENT = 2;
+    private static final int REQUEST_CODE_PAYMENT_SETTINGS = 3;
+
+    private CallbackContext callback = null;
+
+    @Override
+    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        super.initialize(cordova, webView);
+
+        cordova.getActivity().runOnUiThread(() -> SumUpState.init(cordova.getActivity().getApplicationContext()));
+    }
+
+    @Override
+    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+        boolean result = false;
+
+        switch(Action.valueOf(action)){
+            case login: result = true;
+                login(args, callbackContext); break;
+            case auth: result = true;
+                auth(args, callbackContext);
+                break;
+            case getSettings: result = true;
+                getSettings(args, callbackContext);
+                break;
+            case logout: result = true;
+                logout(args, callbackContext);
+                break;
+            case isLoggedIn: result = true;
+                isLoggedIn(args, callbackContext);
+                break;
+            case prepare: result = true;
+                prepare(args, callbackContext);
+                break;
+            case close: result = true;
+                close(args, callbackContext);
+                break;
+            case pay: result = true;
+                pay(args, callbackContext);
+                break;
+        }
+
+        return result;
+    }
+
+    // tries to login sumup user with credentials or acces token
+    private boolean login(JSONArray args, CallbackContext callbackContext){
+        // TODO
+    }
+
+    //
+    private boolean auth(JSONArray args, CallbackContext callbackContext){
+        // TODO
+    }
+
+    private boolean getSettings(JSONArray args, CallbackContext callbackContext){
+        // TODO
+    }
+
+    private boolean logout(JSONArray args, CallbackContext callbackContext){
+        // TODO
+    }
+
+    private boolean isLoggedIn(JSONArray args, CallbackContext callbackContext){
+        // TODO
+    }
+
+    private boolean prepare(JSONArray args, CallbackContext callbackContext){
+        // TODO
+    }
+
+    private boolean close(JSONArray args, CallbackContext callbackContext){
+        // TODO
+    }
+
+    private boolean pay(JSONArray args, CallbackContext callbackContext){
+        // TODO
+    }
 }
