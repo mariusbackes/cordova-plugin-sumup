@@ -26,6 +26,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * @author Marius Backes
+ */
 public class SumUp extends CordovaPlugin {
 
     // SumUp Methods
@@ -39,7 +42,7 @@ public class SumUp extends CordovaPlugin {
         close,
         pay
     }
-    
+
     private static final int REQUEST_CODE_LOGIN = 1;
     private static final int REQUEST_CODE_PAYMENT = 2;
     private static final int REQUEST_CODE_PAYMENT_SETTINGS = 3;
@@ -91,31 +94,37 @@ public class SumUp extends CordovaPlugin {
         // TODO
     }
 
-    //
+    // authenticate with the terminal
     private boolean auth(JSONArray args, CallbackContext callbackContext){
         // TODO
     }
 
+    // reads the settings from the logged in user account
     private boolean getSettings(JSONArray args, CallbackContext callbackContext){
         // TODO
     }
 
+    // logs an user out
     private boolean logout(JSONArray args, CallbackContext callbackContext){
         // TODO
     }
 
+    // checkes whether an user is logged in to proceed some action
     private boolean isLoggedIn(JSONArray args, CallbackContext callbackContext){
         // TODO
     }
 
+    // wakes up the terminal to make a payment
     private boolean prepare(JSONArray args, CallbackContext callbackContext){
         // TODO
     }
 
+    // closes the connection to the card reader
     private boolean close(JSONArray args, CallbackContext callbackContext){
         // TODO
     }
 
+    // executes a payment
     private boolean pay(JSONArray args, CallbackContext callbackContext){
         // TODO
     }
