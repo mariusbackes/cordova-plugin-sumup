@@ -29,3 +29,5 @@ Here are all additional codes:
 
 | Code | Description               |
 | ---- | ------------------------- |
+| 100  | Login error               |
+| 101  | Login canceled            |
