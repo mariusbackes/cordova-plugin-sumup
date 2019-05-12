@@ -27,7 +27,12 @@ or not. These codes are starting at 100.
 
 Here are all additional codes:
 
-| Code | Description               |
-| ---- | ------------------------- |
-| 100  | Login error               |
-| 101  | Login canceled            |
+| Code | Description                    |
+| ---- | ------------------------------ |
+| 100  | Login error                    |
+| 101  | Login canceled                 |
+| 102  | Check for login status failed  |
+| 103  | Logout failed                  |
+| 104  | Failed to close card reader connection |
+| 105  | CardReader instance is not defined |
+| 106  | Error while stop card reader |

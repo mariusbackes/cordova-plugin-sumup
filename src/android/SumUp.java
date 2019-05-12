@@ -39,7 +39,7 @@ public class SumUp extends CordovaPlugin {
         logout,
         isLoggedIn,
         prepare,
-        close,
+        closeConnection,
         pay
     }
 
@@ -73,7 +73,7 @@ public class SumUp extends CordovaPlugin {
                 result = isLoggedIn(args, callbackContext); break;
             case prepare:
                 result = prepare(args, callbackContext); break;
-            case close:
+            case closeConnection:
                 result = close(args, callbackContext); break;
             case pay:
                 result = pay(args, callbackContext); break;
@@ -119,12 +119,35 @@ public class SumUp extends CordovaPlugin {
 
     // logs an user out
     private boolean logout(JSONArray args, CallbackContext callbackContext) {
-        // TODO
+        try {
+            Handler handler = new Handler(cordova.getActivity().getMainLooper());
+            handler.post(() -> SumUpAPI.logout());
+
+            JSONObject obj = createReturnObject(1, "Logout successful");
+            returnCordovaPluginResult(PluginResult.Status.OK, obj, false);
+        } catch (Exception e) {
+            JSONObject obj = createReturnObject(103, "Logout failed");
+            returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
+        }
+
+        return true;
     }
 
     // checkes whether an user is logged in to proceed some action
     private boolean isLoggedIn(JSONArray args, CallbackContext callbackContext) {
-        // TODO
+        boolean isLoggedIn = false;
+        try {
+            isLoggedIn = SumUpAPI.isLoggedIn();
+            JSONObject obj = new JSONObject();
+            obj.put("code", 1);
+            obj.put("isLoggedIn", isLoggedIn);
+            returnCordovaPluginResult(PluginResult.Status.OK, obj, false);
+        } catch (Exception e) {
+            JSONObject obj = createReturnObject(102, "Check for login status failed");
+            returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
+        }
+
+        return true;
     }
 
     // wakes up the terminal to make a payment
@@ -133,8 +156,30 @@ public class SumUp extends CordovaPlugin {
     }
 
     // closes the connection to the card reader
-    private boolean close(JSONArray args, CallbackContext callbackContext) {
-        // TODO
+    private boolean closeConnection(JSONArray args, CallbackContext callbackContext) {
+        try {
+            Handler handler = new Handler(cordova.getActivity().getMainLooper());
+            handler.post(() -> {
+                if(CardReaderManager.getInstance() != null) {
+                    try {
+                        CardReaderManager.getInstance().stopDevice();
+                        JSONObject obj = createReturnObject(1, "Card reader successfully stopped");
+                        returnCordovaPluginResult(PluginResult.Status.OK, obj, false);
+                    } catch (Exception e) {
+                        JSONObject obj = createReturnObject(106, "Error while stop card reader");
+                        returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
+                    }
+                } else {
+                    JSONObject obj = createReturnObject(105, "CardReader instance is not defined");
+                    returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
+                }
+            });
+        } catch (Exception e) {
+            JSONObject obj = createReturnObject(104, "Failed to close card reader connection");
+            returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
+        }
+
+        return true;
     }
 
     // executes a payment
@@ -144,7 +189,6 @@ public class SumUp extends CordovaPlugin {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == REQUEST_CODE_LOGIN) {
             try {
                 if (data != null) {
