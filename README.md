@@ -36,3 +36,14 @@ Here are all additional codes:
 | 104  | Failed to close card reader connection |
 | 105  | CardReader instance is not defined |
 | 106  | Error while stop card reader |
+| 107  | Show settings failed |
+| 108  | Settings done |
+| 109  | Prepare payment error |
+| 110  | Card reader is not ready to transmit |
+| 111  | Error while preparing checkout |
+| 112  | Authenticate error |
+| 113  | No access token |
+| 114  | Authenticate was successful |
+| 115  | Can't parse amount |
+| 116  | Can't parse currency |
+| 117  | Payment error |
