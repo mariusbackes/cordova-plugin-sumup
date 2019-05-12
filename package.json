@@ -31,5 +31,5 @@
   "engines": {
     "cordova": ">=6.3.0"
   },
-  "typings": "./www/sumup.d.ts"
+  "typings": "./typings/sumup.d.ts"
 }

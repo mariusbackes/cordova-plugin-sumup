@@ -94,7 +94,7 @@ public class SumUp extends CordovaPlugin {
             case prepare:
                 result = prepare(args, callbackContext); break;
             case closeConnection:
-                result = close(args, callbackContext); break;
+                result = closeConnection(args, callbackContext); break;
             case pay:
                 result = pay(args, callbackContext); break;
         }
@@ -192,7 +192,6 @@ public class SumUp extends CordovaPlugin {
         boolean isLoggedIn = false;
         try {
             isLoggedIn = SumUpAPI.isLoggedIn();
-            JSONObject obj = new JSONObject();
             obj.put("code", 1);
             obj.put("isLoggedIn", isLoggedIn);
             returnCordovaPluginResult(PluginResult.Status.OK, obj, false);
