@@ -9,6 +9,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.PluginResult.Status;
 
 import com.sumup.merchant.api.SumUpState;
 import com.sumup.merchant.api.SumUpAPI;
@@ -80,9 +81,12 @@ public class SumUp extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         boolean result = false;
 
+        String affiliateKey = this.cordova.getActivity().getString(cordova.getActivity().getResources()
+                .getIdentifier("SUMUP_API_KEY", "string", cordova.getActivity().getPackageName()));
+
         switch(Action.valueOf(action)){
             case login:
-                result = login(args, callbackContext); break;
+                result = login(affiliateKey, args, callbackContext); break;
             case auth:
                 result = auth(args, callbackContext); break;
             case getSettings:
@@ -103,7 +107,7 @@ public class SumUp extends CordovaPlugin {
     }
 
     // tries to login sumup user with credentials or access token
-    private boolean login(JSONArray args, CallbackContext callbackContext) {
+    private boolean login(String affiliateKey, JSONArray args, CallbackContext callbackContext) {
         Runnable runnable = () -> {
             Object accessToken = null;
             try {
@@ -192,6 +196,7 @@ public class SumUp extends CordovaPlugin {
         boolean isLoggedIn = false;
         try {
             isLoggedIn = SumUpAPI.isLoggedIn();
+            JSONObject obj = new JSONObject();
             obj.put("code", 1);
             obj.put("isLoggedIn", isLoggedIn);
             returnCordovaPluginResult(PluginResult.Status.OK, obj, false);
@@ -225,7 +230,6 @@ public class SumUp extends CordovaPlugin {
                         } catch (Exception e) {
                             JSONObject obj = createReturnObject(ERROR_PREPARING_CHECKOUT, e.getMessage());
                             returnCordovaPluginResult(PluginResult.Status.ERROR, obj, false);
-                            return false;
                         }
                     } else {
                         JSONObject obj = createReturnObject(CARDREADER_INSTANCE_NOT_DEFINED, "CardReader instance is not defined");
@@ -256,7 +260,6 @@ public class SumUp extends CordovaPlugin {
                     } catch (Exception e) {
                         JSONObject obj = createReturnObject(STOP_CARD_READER_ERROR, e.getMessage());
                         returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
-                        return false;
                     }
                 } else {
                     JSONObject obj = createReturnObject(CARDREADER_INSTANCE_NOT_DEFINED, "CardReader instance is not defined");
@@ -413,11 +416,17 @@ public class SumUp extends CordovaPlugin {
     }
 
     // creates a return object with all needed information
-    private JSONObject createReturnObject(int code, string message) {
-        JSONObject obj = new JSONObject();
-        obj.put("code", code);
-        obj.put("message", message);
-        return obj;
+    private JSONObject createReturnObject(int code, String message) {
+        try {
+            JSONObject obj = new JSONObject();
+            obj.put("code", code);
+            obj.put("message", message);
+            return obj;
+        } catch (Exception e) {
+            System.out.println("JSONObject error: " + e.getMessage());
+        }
+
+        return null;
     }
 
     // returns the plugin result to javascript interface
