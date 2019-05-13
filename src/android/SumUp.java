@@ -292,7 +292,7 @@ public class SumUp extends CordovaPlugin {
         try {
             currency = SumUpPayment.Currency.valueOf(args.get(1).toString());
         } catch (Exception e) {
-            JSONObject obj = createReturnObject(CANT_PARSE_CURRENCY, "Can't parse amount");
+            JSONObject obj = createReturnObject(CANT_PARSE_CURRENCY, "Can't parse currency");
             returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
             return false;
         }
