@@ -26,9 +26,7 @@ If you are in development you can request test credentials.
 With this credentials your card (Debit- or creditcard) will not be charged.
 Just write a mail to: 
 
-`
-integration@sumup.com
-` 
+[SumUp integration team](mailto:integration@sumup.com)
 
 ## Usage
 
@@ -51,7 +49,7 @@ User will be logged in, in his SumUp account. The parameter **accessToken** is o
 * If the accessToken is not provided, the user has to type in his SumUp Login credentials.
 * If it is provided, to login will be done automatically if the access token is valid.
 
-Read more how to create and renew an access token: // TODO: link 
+Read more how to create and renew an access token: [Create an access token](#create-an-access-token)
 
 #### auth
 `SumUp.auth(accessToken: string): Promise<SumUpResponse>`
