@@ -1,7 +1,7 @@
 {
-  "name": "cordova-plugin-sumup",
+  "name": "cordova-sumup-plugin",
   "description": "Cordova plugin for SumUp SDK integration",
-  "author": "mariusbackes",
+  "author": "Marius Backes",
   "license": "MIT",
   "module": "./www/sumup.js",
   "version": "1.0.0",
@@ -14,7 +14,7 @@
     "url": "https://github.com/mariusbackes/cordova-plugin-sumup.git/issues"
   },
   "cordova": {
-    "id": "cordova-plugin-sumup",
+    "id": "cordova-sumup-plugin",
     "platforms": [
       "android"
     ]
