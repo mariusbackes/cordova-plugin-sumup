@@ -1,4 +1,4 @@
-declare module "cordova-plugin-sumup" {
+declare module "cordova-sumup-plugin" {
   export interface SumUpResponse {
     code: number;
     message: string;

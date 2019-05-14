@@ -14,7 +14,7 @@ If something is wrong with the plugin feel free to open an issue or make a pull 
 
 Add the plugin with the following command:
 
-`cordova plugin add https://github.com/mariusbackes/cordova-plugin-sumup --variable SUMUP_API_KEY=INSERT_YOUR_KEY`
+`cordova plugin add cordova-sumup-plugin --variable SUMUP_API_KEY=INSERT_YOUR_KEY`
 
 SUMUP_API_KEY is the **Affiliate Key** which was created in the SumUp Dashboard.
 
@@ -33,7 +33,7 @@ Just write a mail to:
 You can use this plugin in every JavaScript (ES 2015) or TypeScript application.
 Just import the plugin:
 
-`import * as SumUp from 'cordova-plugin-sumup';`
+`import * as SumUp from 'cordova-sumup-plugin';`
 
 There is also a ionic wrapper available to include this plugin in your Ionic 3+ App:
 
