@@ -218,10 +218,10 @@ public class SumUp extends CordovaPlugin {
                 ReaderLibManager rlm;
                 rlm = CoreState.Instance().get(ReaderLibManager.class);
 
-                if(!rlm.isReadyToTransmit()) {
-                    JSONObject obj = createReturnObject(CARDREADER_NOT_READY_TO_TRANSMIT, "Card reader is not ready to transmit");
-                    returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
-                } else {
+                //if(!rlm.isReadyToTransmit()) {
+                //    JSONObject obj = createReturnObject(CARDREADER_NOT_READY_TO_TRANSMIT, "Card reader is not ready to transmit");
+                //    returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
+                //} else {
                     if(CardReaderManager.getInstance() != null) {
                         try {
                             SumUpAPI.prepareForCheckout();
@@ -235,7 +235,7 @@ public class SumUp extends CordovaPlugin {
                         JSONObject obj = createReturnObject(CARDREADER_INSTANCE_NOT_DEFINED, "CardReader instance is not defined");
                         returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
                     }
-                }
+                //}
             });
         } catch (Exception e) {
             JSONObject obj = createReturnObject(PREPARE_PAYMENT_ERROR, e.getMessage());
@@ -366,7 +366,7 @@ public class SumUp extends CordovaPlugin {
                     }
 
                     if (code == 1) {
-                        returnCordovaPluginResult(PluginResult.Status.ERROR, obj, false);
+                        returnCordovaPluginResult(PluginResult.Status.OK, obj, false);
                     } else {
                         obj = createReturnObject(code, "Payment error");
 

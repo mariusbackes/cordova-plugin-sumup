@@ -4,7 +4,7 @@
   "author": "Marius Backes",
   "license": "MIT",
   "module": "./www/sumup.js",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "homepage": "https://github.com/mariusbackes/cordova-plugin-sumup",
   "repository": {
     "type": "git",

@@ -35,50 +35,6 @@ Just import the plugin:
 
 `import * as SumUp from 'cordova-sumup-plugin';`
 
-There is also a ionic wrapper available to include this plugin in your Ionic 3+ App:
-
-```typescript
-// app.module.ts
-import { SumUp } from '@ionic-native/sum-up/ngx';
-
-...
-@NgModule({
-  ...
-
-  providers: [
-    ...
-    SumUp
-    ...
-  ]
-  ...
-})
-export class AppModule { }
-```
-
-```typescript
-import { Platform } from 'ionic-angular';
-import { SumUp } from '@ionic-native/sum-up/ngx';
-
-@Component({ ... })
-export class MyComponent {
-
-  constructor(private platform: Platform, private sumUp: SumUp) {
-    this.platform.ready().then(() => {
-      this.sumUpPayment();
-    });
-  }
-
-  private async sumUpPayment(): Promise<void> {
-    try {
-      let payment = await this.sumUp.pay(1.01, "EUR");
-      console.log(payment);
-    } catch (e) {
-      console.loge(e);
-    }
-  }
-}
-```
-
 ### Methods
 
 #### Login
@@ -288,3 +244,12 @@ Here are all additional codes:
 | 115  | Can't parse amount                     |
 | 116  | Can't parse currency                   |
 | 117  | Payment error                          |
+
+## Common problems
+
+### Invalid affiliate key
+If you want to make a payment and get the "Invalid affiliate key" error
+in this process it could be, you have provided the false app id.
+
+Make sure the app id you created in your SumUp dashboard is equal to the
+id from your config.xml
