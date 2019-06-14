@@ -42,4 +42,30 @@
         </config-file>
         <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
     </platform>
+
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="SumUp">
+                <param name="ios-package" value="SumUp"/>
+            </feature>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription">
+            <string>To provide a secure service, we need to know your location. Without location information, you cannot use SumUp.</string>
+        </config-file>
+        <config-file target="*-Info.plist" parent="NSBluetoothPeripheralUsageDescription">
+            <string>The app needs to connect to Bluetooth peripherals to detect the SumUp Card Terminal correctly. Please confirm with OK as you cannot use your card reader otherwise.</string>
+        </config-file>
+        <config-file target="*-Info.plist" parent="NSMicrophoneUsageDescription">
+            <string>The app needs to access the microphone of your audio jack in order for the SumUp Card Reader to be detected correctly. Please confirm with OK as you cannot use your card reader otherwise.</string>
+        </config-file>
+        <config-file target="*-Info.plist" parent="SUMUP_API_KEY">
+            <string>$SUMUP_API_KEY</string>
+        </config-file>
+        <source-file src="src/ios/SumUp.swift" />
+        <preference name="SUMUP_API_KEY" />
+        <dependency id="cordova-plugin-add-swift-support" version="2.0.2"/>
+        <framework src="SumUpSDK" type="podspec" spec="~> 3.2.0" />
+    </platform>
 </plugin>
