@@ -20,7 +20,7 @@
     </engines>
 
     <js-module src="www/sumup.js" name="SumUp">
-        <clobbers target="SumUp"/>
+        <clobbers target="window.SumUp"/>
     </js-module>
 
     <!-- android -->

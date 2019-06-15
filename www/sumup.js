@@ -1,56 +1,40 @@
 const CLASS = "SumUp";
 
 module.exports = {
-  login: accessToken => {
-    return new Promise((resolve, reject) =>
-      cordova.exec(
-        resolve,
-        reject,
-        CLASS,
-        "login",
-        accessToken ? [accessToken] : []
-      )
+  login: (accessToken, success, failure) => {
+    cordova.exec(
+      success,
+      failure,
+      CLASS,
+      "login",
+      accessToken ? [accessToken] : []
     );
   },
-  auth: accessToken => {
-    return new Promise((resolve, reject) =>
-      cordova.exec(
-        resolve,
-        reject,
-        CLASS,
-        "auth",
-        accessToken ? [accessToken] : []
-      )
+  auth: (accessToken, success, failure) => {
+    cordova.exec(
+      success,
+      failure,
+      CLASS,
+      "auth",
+      accessToken ? [accessToken] : []
     );
   },
-  getSettings: () => {
-    return new Promise((resolve, reject) =>
-      cordova.exec(resolve, reject, CLASS, "getSettings", [])
-    );
+  getSettings: (success, failure) => {
+    cordova.exec(success, failure, CLASS, "getSettings", []);
   },
-  logout: () => {
-    return new Promise((resolve, reject) =>
-      cordova.exec(resolve, reject, "SumUp", "logout", [])
-    );
+  logout: (success, failure) => {
+    cordova.exec(success, failure, CLASS, "logout", []);
   },
-  isLoggedIn: () => {
-    return new Promise((resolve, reject) =>
-      cordova.exec(resolve, reject, CLASS, "isLoggedIn", [])
-    );
+  isLoggedIn: (success, failure) => {
+    cordova.exec(success, failure, CLASS, "isLoggedIn", []);
   },
-  prepare: () => {
-    return new Promise((resolve, reject) =>
-      cordova.exec(resolve, reject, CLASS, "prepare", [])
-    );
+  prepare: (success, failure) => {
+    cordova.exec(success, failure, CLASS, "prepare", []);
   },
-  closeConnection: () => {
-    return new Promise((resolve, reject) =>
-      cordova.exec(resolve, reject, CLASS, "closeConnection", [])
-    );
+  closeConnection: (success, failure) => {
+    cordova.exec(success, failure, CLASS, "closeConnection", []);
   },
-  pay: (amount, currencycode) => {
-    return new Promise((resolve, reject) =>
-      cordova.exec(resolve, reject, CLASS, "pay", [amount, currencycode])
-    );
+  pay: (amount, currencycode, success, failure) => {
+    cordova.exec(success, failure, CLASS, "pay", [amount, currencycode]);
   }
 };

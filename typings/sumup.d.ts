@@ -30,58 +30,51 @@ declare module "cordova-sumup-plugin" {
    *
    * @export
    * @param {string} [accessToken]
-   * @returns {Promise<SumUpResponse>}
    */
-  export function login(accessToken?: string): Promise<SumUpResponse>;
+  export function login(accessToken?: string): void;
 
   /**
    * Access token needed to authenticate
    * @export
    * @param {string} [accessToken]
-   * @returns {Promise<SumUpResponse>}
    */
-  export function auth(accessToken: string): Promise<SumUpResponse>;
+  export function auth(accessToken: string): void;
 
   /**
    * Opens the settings dialog
    *
    * @export
-   * @returns {Promise<SumUpResponse>}
    */
-  export function getSettings(): Promise<SumUpResponse>;
+  export function getSettings(): void;
 
   /**
    * Logout of SumUp
    *
    * @export
-   * @returns {Promise<SumUpResponse>}
    */
-  export function logout(): Promise<SumUpResponse>;
+  export function logout(): void;
 
   /**
    * Check whether the user is logged in
    *
    * @export
-   * @returns {Promise<SumUpLoginStatus>}
    */
-  export function isLoggedIn(): Promise<SumUpLoginStatus>;
+  export function isLoggedIn(): void;
 
   /**
    * Will awake the terminal for a transaction.
    * Use a bit before the transaction is expected to take place, to make the process faster.
    *
    * @export
-   * @returns {Promise<void>}
    */
-  export function prepare(): Promise<SumUpResponse>;
+  export function prepare(): void;
 
   /**
    * Closes the connection to the payment terminale
    *
    * @export
-   * @returns {Promise<void>}
    */
-  export function closeConnection(): Promise<SumUpResponse>;
+  export function closeConnection(): void;
 
   /**
    * Proceed a payment
@@ -89,10 +82,6 @@ declare module "cordova-sumup-plugin" {
    * @export
    * @param {number} amount
    * @param {string} currencycode
-   * @returns {Promise<SumUpPayment>} If the payment is successful
    */
-  export function pay(
-    amount: number,
-    currencycode: string
-  ): Promise<SumUpPayment>;
+  export function pay(amount: number, currencycode: string): void;
 }

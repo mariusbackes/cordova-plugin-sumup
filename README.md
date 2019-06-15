@@ -30,16 +30,28 @@ Just write a mail to:
 
 ## Usage
 
-You can use this plugin in every JavaScript (ES 2015) or TypeScript application.
-Just import the plugin:
+Get global access to the plugin methods with the keyword **SumUp**.
 
-`import * as SumUp from 'cordova-sumup-plugin';`
+#### Ionic Native
+
+A wrapper for Ionic Native will be available soon!
 
 ### Methods
 
+If you get access to the plugin with plain JavaScript by using **SumUp** the plugin will return
+a success and an error callback. Example:
+
+```js
+ SumUp.methodName([parameter], function(success) {
+   console.log(success);
+ }, function(error) {
+   console.log(error);
+ })
+```
+
 #### Login
 
-`SumUp.login(accessToken?: string): Promise<SumUpResponse>`
+`SumUp.login(accessToken?: string)`
 
 User will be logged in, in his SumUp account. The parameter **accessToken** is optional.
 
@@ -50,45 +62,45 @@ Read more how to create and renew an access token: [Create an access token](#cre
 
 #### auth
 
-`SumUp.auth(accessToken: string): Promise<SumUpResponse>`
+`SumUp.auth(accessToken: string)`
 
 Authenticates the account with the given access token.
 Parameter **accessToken** is required.
 
 #### getSettings
 
-`SumUp.getSettings(): Promise<SumUpResponse>`
+`SumUp.getSettings()`
 
 Opens a new window with the all account settings of an logged in user.
 
 #### logout
 
-`SumUp.logout(): Promise<SumUpResponse>`
+`SumUp.logout()`
 
 Logout a user from the account.
 
 #### isLoggedIn
 
-`SumUp.isLoggedIn(): Promise<SumUpLoginStatus>`
+`SumUp.isLoggedIn()`
 
 Checks whether the user is logged in or not and returns an object with the field **isLoggedIn** which is a boolean value.
 
 #### prepare
 
-`SumUp.prepare(): Promise<SumUpResponse>`
+`SumUp.prepare()`
 
 Prepares the terminal for a payment. Checks whether the CardReader is ready to tramsmit
 and if an instance of the CardReaderManager is available.
 
 #### closeConnection
 
-`SumUp.closeConnection(): Promise<SumUpResponse>`
+`SumUp.closeConnection()`
 
 Tries to close the connection to the card terminal.
 
 #### pay
 
-`SumUp.pay(amount: number, currencycode: string): Promise<SumUpPayment>`
+`SumUp.pay(amount: number, currencycode: string)`
 
 Opens a native SumUp window to proceed a payment.
 Parameter **amount** and **currencycode** are required.
@@ -253,3 +265,9 @@ in this process it could be, you have provided the false app id.
 
 Make sure the app id you created in your SumUp dashboard is equal to the
 id from your config.xml
+
+## Changelog
+
+- 1.0.2: Bugfix on successful payment response
+- 1.0.1: Bugfix on CardReader transmission state.
+- 1.0.0: Initial version support for Android.
