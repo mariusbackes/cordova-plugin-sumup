@@ -266,8 +266,19 @@ in this process it could be, you have provided the false app id.
 Make sure the app id you created in your SumUp dashboard is equal to the
 id from your config.xml
 
+## Examples
+
+### Plain javascript
+In the folder **examples/javasript** you can find a plain Javascript application to communicate with
+a SumUp Terminal.
+Just insert your **affiliate key** in **package.json** and install the package with **npm install**.
+
+If you want to login with an access token, you must generate an access token like [described here](#create-an-access-token).
+After generating a valid access token insert it in **index.js**.
+
 ## Changelog
 
+- 1.0.3: Added example for plain JavaScript app
 - 1.0.2: Bugfix on successful payment response
 - 1.0.1: Bugfix on CardReader transmission state.
 - 1.0.0: Initial version support for Android.
