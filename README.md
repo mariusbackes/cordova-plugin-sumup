@@ -34,7 +34,45 @@ Get global access to the plugin methods with the keyword **SumUp**.
 
 #### Ionic Native
 
-A wrapper for Ionic Native will be available soon!
+If you are using Ionic , use the Ionic Native Wrapper. Install it with `npm install @ionic-native/sum-up`.
+
+Import the plugin in your app.module:
+```ts
+ @NgModule({
+  declarations: [AppComponent],
+  entryComponents: [],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  providers: [
+    SumUp,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  ],
+  bootstrap: [AppComponent]
+})
+```
+
+And import and use it in every of your components:
+```ts
+import { SumUp } from '@ionic-native/sum-up/ngx';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: 'home.page.html'
+})
+export class HomePage {
+  constructor(private sumUp: SumUp) {}
+    
+  private async login(): Promise<void> {
+    try {
+      await this.sumUp.login(this.access_token);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+}
+```
+
+If you want to try the example first, you can read more [here](#ionic-framework)
+
 
 ### Methods
 
@@ -276,9 +314,20 @@ Just insert your **affiliate key** in **package.json** and install the package w
 If you want to login with an access token, you must generate an access token like [described here](#create-an-access-token).
 After generating a valid access token insert it in **index.js**.
 
+### Ionic Framework
+In **examples/ionic** is an example app with Ionic.
+ 1. Insert your own API_KEY (Affiliate Key) in the **examples/ionic/package.json**.
+ 2. Generate an access token if needed.
+ 3. Install the dependencies with `npm install`. 
+ 4. Add a platform: `ionic cordova platform add [android, ios]`.
+ 5. Build the App: `ionic cordova build [android, ios]`.
+ 6. Install the .apk File on an Android device with `adb install` or open the `xcworkspace` to run it on an iOS device.
+ 7. You can also run the app directly with `ionic cordova run [android, ios]`.
+
 ## Changelog
 
+- 1.0.4: Added Ionic example app
 - 1.0.3: Added example for plain JavaScript app
 - 1.0.2: Bugfix on successful payment response
-- 1.0.1: Bugfix on CardReader transmission state.
-- 1.0.0: Initial version support for Android.
+- 1.0.1: Bugfix on CardReader transmission state
+- 1.0.0: Initial version support for Android
