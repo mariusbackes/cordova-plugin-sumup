@@ -1,0 +1,7 @@
+{
+  "name": "sumup-test",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

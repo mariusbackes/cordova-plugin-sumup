@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      SumUp Test
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div padding>
+    <ion-button expand="full" (click)="login()">Login</ion-button>
+  </div>
+
+  <div padding>
+    <ion-button expand="full" (click)="auth()">Auth</ion-button>
+  </div>
+
+  <div padding>
+    <ion-button expand="full" (click)="prepare()">Prepare</ion-button>
+  </div>
+
+  <div padding>
+    <ion-button expand="full" (click)="settings()">Settings</ion-button>
+  </div>
+
+  <div padding>
+    <ion-button expand="full" (click)="isLoggedIn()">Is logged in</ion-button>
+  </div>
+
+  <div padding>
+    <ion-button expand="full" (click)="pay()">Pay</ion-button>
+  </div>
+
+  <div padding>
+    <ion-button expand="full" (click)="logout()">Logout</ion-button>
+  </div>
+
+  <code style="text-align: center">
+    <pre>{{sumupResult | json}}</pre>
+  </code>
+</ion-content>
