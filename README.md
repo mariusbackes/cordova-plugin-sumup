@@ -37,6 +37,7 @@ Get global access to the plugin methods with the keyword **SumUp**.
 If you are using Ionic , use the Ionic Native Wrapper. Install it with `npm install @ionic-native/sum-up`.
 
 Import the plugin in your app.module:
+
 ```ts
  @NgModule({
   declarations: [AppComponent],
@@ -51,16 +52,19 @@ Import the plugin in your app.module:
 ```
 
 And import and use it in every of your components:
+
 ```ts
-import { SumUp } from '@ionic-native/sum-up/ngx';
+import { SumUp } from "@ionic-native/sum-up/ngx";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html'
+  selector: "app-home",
+  templateUrl: "home.page.html"
 })
 export class HomePage {
+  private access_token: string = "YOUR_ACCESS_TOKEN";
+
   constructor(private sumUp: SumUp) {}
-    
+
   private async login(): Promise<void> {
     try {
       await this.sumUp.login(this.access_token);
@@ -73,18 +77,21 @@ export class HomePage {
 
 If you want to try the example first, you can read more [here](#ionic-framework)
 
-
 ### Methods
 
 If you get access to the plugin with plain JavaScript by using **SumUp** the plugin will return
 a success and an error callback. Example:
 
 ```js
- SumUp.methodName([parameter], function(success) {
-   console.log(success);
- }, function(error) {
-   console.log(error);
- })
+SumUp.methodName(
+  [parameter],
+  function(success) {
+    console.log(success);
+  },
+  function(error) {
+    console.log(error);
+  }
+);
 ```
 
 #### Login
@@ -298,6 +305,7 @@ Here are all additional codes:
 ## Common problems
 
 ### Invalid affiliate key
+
 If you want to make a payment and get the "Invalid affiliate key" error
 in this process it could be, you have provided the false app id.
 
@@ -307,6 +315,7 @@ id from your config.xml
 ## Examples
 
 ### Plain javascript
+
 In the folder **examples/javasript** you can find a plain Javascript application to communicate with
 a SumUp Terminal.
 Just insert your **affiliate key** in **package.json** and install the package with **npm install**.
@@ -315,17 +324,20 @@ If you want to login with an access token, you must generate an access token lik
 After generating a valid access token insert it in **index.js**.
 
 ### Ionic Framework
+
 In **examples/ionic** is an example app with Ionic.
- 1. Insert your own API_KEY (Affiliate Key) in the **examples/ionic/package.json**.
- 2. Generate an access token if needed.
- 3. Install the dependencies with `npm install`. 
- 4. Add a platform: `ionic cordova platform add [android, ios]`.
- 5. Build the App: `ionic cordova build [android, ios]`.
- 6. Install the .apk File on an Android device with `adb install` or open the `xcworkspace` to run it on an iOS device.
- 7. You can also run the app directly with `ionic cordova run [android, ios]`.
+
+1.  Insert your own API_KEY (Affiliate Key) in the **examples/ionic/package.json**.
+2.  Generate an access token if needed.
+3.  Install the dependencies with `npm install`.
+4.  Add a platform: `ionic cordova platform add [android, ios]`.
+5.  Build the App: `ionic cordova build [android, ios]`.
+6.  Install the .apk File on an Android device with `adb install` or open the `xcworkspace` to run it on an iOS device.
+7.  You can also run the app directly with `ionic cordova run [android, ios]`.
 
 ## Changelog
 
+- 1.1.0: Updated SumUp Android SDK to version 3.2.0
 - 1.0.4: Added Ionic example app
 - 1.0.3: Added example for plain JavaScript app
 - 1.0.2: Bugfix on successful payment response
