@@ -337,6 +337,7 @@ In **examples/ionic** is an example app with Ionic.
 
 ## Changelog
 
+- 1.1.1: Updated SumUp Android SDK to version 3.2.1
 - 1.1.0: Updated SumUp Android SDK to version 3.2.0
 - 1.0.4: Added Ionic example app
 - 1.0.3: Added example for plain JavaScript app
