@@ -18,6 +18,12 @@ Add the plugin with the following command:
 
 SUMUP_API_KEY is the **Affiliate Key** which was created in the SumUp Dashboard.
 
+If you want to change your **Affiliate Key** on runtime, just install the plugin like this:
+
+`cordova plugin add cordova-sumup-plugin --variable SUMUP_API_KEY=""`
+
+Make sure, the SUMUP_API_KEY value is an empty string.
+
 [SumUp Dashboard](https://me.sumup.com/developers)
 
 ### Test credentials
@@ -96,14 +102,30 @@ SumUp.methodName(
 
 #### Login
 
-`SumUp.login(accessToken?: string)`
+```js
+SumUpKeys {
+    accessToken?: number;
+    affiliateKey?: string;
+}
+```
 
-User will be logged in, in his SumUp account. The parameter **accessToken** is optional.
+`SumUp.login(sumUpKeys: SumUpKeys)`
+
+User will be logged in, in his SumUp account. The parameter for the login method is a SumUpKeys Object.
+Default, it contains two empty string values. Both values are optional.
+
+##### AccessToken
 
 - If the accessToken is not provided, the user has to type in his SumUp Login credentials.
 - If it is provided, to login will be done automatically if the access token is valid.
 
 Read more how to create and renew an access token: [Create an access token](#create-an-access-token)
+
+##### AffiliateKey
+If you want to change your affiliateKey on runtime, make sure you've added the plugin in the correct way.
+Like described in [Installation](#installation).
+
+Now you can set your **affiliate key** value on the object.
 
 #### auth
 
@@ -301,6 +323,7 @@ Here are all additional codes:
 | 115  | Can't parse amount                     |
 | 116  | Can't parse currency                   |
 | 117  | Payment error                          |
+| 118  | No affiliate key available             |
 
 ## Common problems
 
@@ -337,6 +360,7 @@ In **examples/ionic** is an example app with Ionic.
 
 ## Changelog
 
+- 1.2.0: Provide the SUMUP_API_KEY (Affiliate Key) from JavaScript
 - 1.1.1: Updated SumUp Android SDK to version 3.2.1
 - 1.1.0: Updated SumUp Android SDK to version 3.2.0
 - 1.0.4: Added Ionic example app

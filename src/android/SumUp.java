@@ -67,6 +67,7 @@ public class SumUp extends CordovaPlugin {
     private static final int CANT_PARSE_AMOUNT = 115;
     private static final int CANT_PARSE_CURRENCY = 116;
     private static final int PAYMENT_ERROR = 117;
+    private static final int NO_AFFILIATE_KEY = 118;
 
     private CallbackContext callback = null;
 
@@ -107,26 +108,40 @@ public class SumUp extends CordovaPlugin {
     }
 
     // tries to login sumup user with credentials or access token
-    private boolean login(String affiliateKey, JSONArray args, CallbackContext callbackContext) {
-        Runnable runnable = () -> {
-            Object accessToken = null;
-            try {
-                accessToken = args.get(0);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-            SumUpLogin sumUpLogin;
-            if (accessToken != null) {
-                sumUpLogin = SumUpLogin.builder(affiliateKey).accessToken(accessToken.toString()).build();
-            } else {
-                sumUpLogin = SumUpLogin.builder(affiliateKey).build();
-            }
-            SumUpAPI.openLoginActivity(cordova.getActivity(), sumUpLogin, REQUEST_CODE_LOGIN);
-        };
-
+    private boolean login(String affiliateKey, JSONArray args, CallbackContext callbackContext) throws JSONException {
         callback = callbackContext;
-        cordova.setActivityResultCallback(this);
-        cordova.getActivity().runOnUiThread(runnable);
+
+        final JSONObject sumUpKeys = args.getJSONObject(0);
+        if(affiliateKey.isEmpty()) {
+            affiliateKey = sumUpKeys.optString("affiliateKey");
+        }
+
+        if(!affiliateKey.isEmpty()) {
+            final String supportedAffiliateKey = affiliateKey;
+            Runnable runnable = () -> {
+                Object accessToken = null;
+                try {
+                    accessToken = sumUpKeys.optString("accessToken");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
+                SumUpLogin sumUpLogin;
+                if (accessToken != null || accessToken != "") {
+                    sumUpLogin = SumUpLogin.builder(supportedAffiliateKey).accessToken(accessToken.toString()).build();
+                } else {
+                    sumUpLogin = SumUpLogin.builder(supportedAffiliateKey).build();
+                }
+
+                SumUpAPI.openLoginActivity(cordova.getActivity(), sumUpLogin, REQUEST_CODE_LOGIN);
+            };
+
+            cordova.setActivityResultCallback(this);
+            cordova.getActivity().runOnUiThread(runnable);
+        } else {
+            JSONObject obj = createReturnObject(NO_AFFILIATE_KEY, "No affiliate key available");
+            returnCordovaPluginResult(PluginResult.Status.ERROR, obj, false);
+        }
 
         return true;
     }
@@ -222,19 +237,19 @@ public class SumUp extends CordovaPlugin {
                 //    JSONObject obj = createReturnObject(CARDREADER_NOT_READY_TO_TRANSMIT, "Card reader is not ready to transmit");
                 //    returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
                 //} else {
-                    if(CardReaderManager.getInstance() != null) {
-                        try {
-                            SumUpAPI.prepareForCheckout();
-                            JSONObject obj = createReturnObject(1, "SumUp checkout prepared successfully");
-                            returnCordovaPluginResult(PluginResult.Status.OK, obj, false);
-                        } catch (Exception e) {
-                            JSONObject obj = createReturnObject(ERROR_PREPARING_CHECKOUT, e.getMessage());
-                            returnCordovaPluginResult(PluginResult.Status.ERROR, obj, false);
-                        }
-                    } else {
-                        JSONObject obj = createReturnObject(CARDREADER_INSTANCE_NOT_DEFINED, "CardReader instance is not defined");
-                        returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
+                if(CardReaderManager.getInstance() != null) {
+                    try {
+                        SumUpAPI.prepareForCheckout();
+                        JSONObject obj = createReturnObject(1, "SumUp checkout prepared successfully");
+                        returnCordovaPluginResult(PluginResult.Status.OK, obj, false);
+                    } catch (Exception e) {
+                        JSONObject obj = createReturnObject(ERROR_PREPARING_CHECKOUT, e.getMessage());
+                        returnCordovaPluginResult(PluginResult.Status.ERROR, obj, false);
                     }
+                } else {
+                    JSONObject obj = createReturnObject(CARDREADER_INSTANCE_NOT_DEFINED, "CardReader instance is not defined");
+                    returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
+                }
                 //}
             });
         } catch (Exception e) {

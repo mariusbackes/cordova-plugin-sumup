@@ -1,13 +1,13 @@
 const CLASS = "SumUp";
 
 module.exports = {
-  login: (accessToken, success, failure) => {
+  login: (sumUpKeys, success, failure) => {
     cordova.exec(
       success,
       failure,
       CLASS,
       "login",
-      accessToken ? [accessToken] : []
+      [sumUpKeys]
     );
   },
   auth: (accessToken, success, failure) => {

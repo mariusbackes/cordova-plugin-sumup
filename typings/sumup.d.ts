@@ -22,6 +22,11 @@ declare module "cordova-sumup-plugin" {
     entry_mode: string;
     installments: number;
   }
+  
+  export interface SumUpKeys {
+    accessToken?: string,
+    affiliateKey?: string
+  }
 
   /**
    * Login to SumUp
@@ -29,9 +34,9 @@ declare module "cordova-sumup-plugin" {
    * If no access token available, a login screen is shown
    *
    * @export
-   * @param {string} [accessToken]
+   * @param {SumUpKeys} [sumUpKeys]
    */
-  export function login(accessToken?: string): void;
+  export function login(sumUpKeys: SumUpKeys): void;
 
   /**
    * Access token needed to authenticate
