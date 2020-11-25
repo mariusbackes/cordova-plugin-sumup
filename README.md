@@ -1,3 +1,7 @@
+# Not maintained
+
+I will no longer maintain this plugin. If you want to make changes, feel free to open a pull request. I will still review this changes and merge them if they are compatible.
+
 # Cordova plugin for SumUp SDK
 
 ## Description
