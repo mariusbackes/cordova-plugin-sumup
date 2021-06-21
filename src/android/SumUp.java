@@ -378,6 +378,7 @@ public class SumUp extends CordovaPlugin {
                         obj.put("entry_mode", txinfo.getEntryMode());
                         obj.put("installments", txinfo.getInstallments());
                         obj.put("card_type", txinfo.getCard().getType());
+                        obj.put("last_4_digits", txinfo.getCard().getLast4Digits());
                     }
 
                     if (code == 1) {
