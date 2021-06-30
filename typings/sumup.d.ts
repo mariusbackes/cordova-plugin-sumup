@@ -21,6 +21,7 @@ declare module "cordova-sumup-plugin" {
     payment_type: string;
     entry_mode: string;
     installments: number;
+    last_4_digits: number;
   }
   
   export interface SumUpKeys {
