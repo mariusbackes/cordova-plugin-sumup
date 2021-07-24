@@ -127,7 +127,7 @@ public class SumUp extends CordovaPlugin {
                 }
 
                 SumUpLogin sumUpLogin;
-                if (accessToken != null || accessToken != "") {
+                if (accessToken != null && !accessToken.equals("")) {
                     sumUpLogin = SumUpLogin.builder(supportedAffiliateKey).accessToken(accessToken.toString()).build();
                 } else {
                     sumUpLogin = SumUpLogin.builder(supportedAffiliateKey).build();
