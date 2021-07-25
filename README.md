@@ -68,7 +68,7 @@ import { SumUp } from "@ionic-native/sum-up/ngx";
 
 @Component({
   selector: "app-home",
-  templateUrl: "home.page.html"
+  templateUrl: "home.page.html",
 })
 export class HomePage {
   private access_token: string = "YOUR_ACCESS_TOKEN";
@@ -95,10 +95,10 @@ a success and an error callback. Example:
 ```js
 SumUp.methodName(
   [parameter],
-  function(success) {
+  function (success) {
     console.log(success);
   },
-  function(error) {
+  function (error) {
     console.log(error);
   }
 );
@@ -126,6 +126,7 @@ Default, it contains two empty string values. Both values are optional.
 Read more how to create and renew an access token: [Create an access token](#create-an-access-token)
 
 ##### AffiliateKey
+
 If you want to change your affiliateKey on runtime, make sure you've added the plugin in the correct way.
 Like described in [Installation](#installation).
 
@@ -364,6 +365,7 @@ In **examples/ionic** is an example app with Ionic.
 
 ## Changelog
 
+- 1.3.0: Added "last_4_digits" on payment and fixed an issue on login (Check missing accessToken)
 - 1.2.0: Provide the SUMUP_API_KEY (Affiliate Key) from JavaScript
 - 1.1.1: Updated SumUp Android SDK to version 3.2.1
 - 1.1.0: Updated SumUp Android SDK to version 3.2.0
