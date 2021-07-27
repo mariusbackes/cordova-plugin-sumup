@@ -207,19 +207,26 @@ public class SumUp extends CordovaPlugin {
 
     // checkes whether an user is logged in to proceed some action
     private boolean isLoggedIn(JSONArray args, CallbackContext callbackContext) {
-        callback = callbackContext;
-        boolean isLoggedIn = false;
-        try {
+        // runnable to run on the UIThread
+        Runnable runnable = () -> {
+            boolean isLoggedIn = false;
             isLoggedIn = SumUpAPI.isLoggedIn();
-            JSONObject obj = new JSONObject();
-            obj.put("code", 1);
-            obj.put("isLoggedIn", isLoggedIn);
-            returnCordovaPluginResult(PluginResult.Status.OK, obj, false);
-        } catch (Exception e) {
-            JSONObject obj = createReturnObject(CHECK_FOR_LOGIN_STATUS_FAILED, e.getMessage());
-            returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
-            return false;
-        }
+            try {
+                JSONObject obj = new JSONObject();
+                obj.put("code", 1);
+                obj.put("isLoggedIn", isLoggedIn);
+                returnCordovaPluginResult(PluginResult.Status.OK, obj, true);
+            } catch (Exception e) {
+                JSONObject obj = createReturnObject(CHECK_FOR_LOGIN_STATUS_FAILED, e.getMessage());
+                returnCordovaPluginResult(PluginResult.Status.ERROR, obj, false);
+          }
+        };
+
+        callback = callbackContext;
+        // setting the activity result breaks further calls
+        // with error "Attempted to send a second callback error"
+        // cordova.setActivityResultCallback(this);
+        cordova.getActivity().runOnUiThread(runnable);
 
         return true;
     }
