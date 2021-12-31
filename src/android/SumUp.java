@@ -268,6 +268,18 @@ public class SumUp extends CordovaPlugin {
         return true;
     }
 
+    // setup the SDK. Only available for iOS right now.. (TODO?)
+    private boolean setup(JSONArray args, CallbackContext callbackContext) {
+        callback = callbackContext;
+        return true;
+    }
+
+    // test the SDK integration. Only available for iOS right now.. (TODO?)
+    private boolean test(JSONArray args, CallbackContext callbackContext) {
+        callback = callbackContext;
+        return true;
+    }
+
     // closes the connection to the card reader
     private boolean closeConnection(JSONArray args, CallbackContext callbackContext) {
         callback = callbackContext;

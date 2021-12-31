@@ -76,6 +76,21 @@ declare module "cordova-sumup-plugin" {
   export function prepare(): void;
 
   /**
+   * Will setup the SumUP SDK.
+   * This action is required before using other functions.
+   *
+   * @export
+   */
+  export function setup(): void;
+
+  /**
+   * Test the SumUp integration using SDK tests.
+   *
+   * @export
+   */
+  export function test(): void;
+
+  /**
    * Closes the connection to the payment terminale
    *
    * @export
