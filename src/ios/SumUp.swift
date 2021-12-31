@@ -127,6 +127,14 @@ import SumUpSDK;
         returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
     }
 
+    @objc(setup:)
+    func setup(command: CDVInvokedUrlCommand) {
+        let affiliate_key = getAffiliateKey(); print(affiliate_key);
+        SumUpSDK.setup(withAPIKey: affiliate_key);
+        let obj = createReturnObject(code: SUCCESS, message: "SumUp setup executed. See console.");
+        returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
+    }
+    
     @objc(closeConnection:)
     func closeConnection(command: CDVInvokedUrlCommand) {
         let obj = createReturnObject(code: 104, message: "Close connection is not available on iOS");
