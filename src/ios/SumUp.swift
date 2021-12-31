@@ -150,6 +150,60 @@ import SumUpSDK;
 
     @objc(pay:)
     func pay(command: CDVInvokedUrlCommand) {
+        var amount: NSDecimalNumber;
+        var number: NSNumber;
+        
+        if((command.arguments != nil) && command.arguments.count > 0) {
+            number = command.arguments[0] as! NSNumber;
+            amount = NSDecimalNumber(decimal: number.decimalValue);
+
+            guard amount != NSDecimalNumber.zero else {
+                return
+            }
+            
+            guard let currency = SumUpSDK.currentMerchant?.currencyCode else {
+                print("Not logged in");
+                return
+            }
+            
+            let request = CheckoutRequest(total: amount, title: "test", currencyCode: currency);
+            
+            SumUpSDK.checkout(with: request, from: self.viewController) { (result: CheckoutResult?, error: Error?) in
+                if let safeError = error as NSError? {
+                    print("error during checkout: \(safeError)")
+
+                    if (safeError.domain == SumUpSDKErrorDomain) && (safeError.code == SumUpSDKError.accountNotLoggedIn.rawValue) {
+                        print("Not logged in");
+                    } else {
+                        print("General error");
+                    }
+                    return
+                }
+
+                guard let safeResult = result else {
+                    print("no error and no result should not happen")
+                    return
+                }
+
+                print("result_transaction==\(String(describing: safeResult.transactionCode))")
+
+                if safeResult.success {
+                    print("success")
+                    var message = "Thank you - \(String(describing: safeResult.transactionCode))"
+
+                    if let info = safeResult.additionalInfo,
+                        let tipAmount = info["tip_amount"] as? Double, tipAmount > 0,
+                        let currencyCode = info["currency"] as? String {
+                        message = message.appending("\ntip: \(tipAmount) \(currencyCode)")
+                    }
+                    print(message);
+                } else {
+                    print("cancelled: no error, no success")
+                    print("No charge (cancelled)")
+                }
+            };
+        }
+
         let obj = createReturnObject(code: 117, message: "Pay method will be implemented soon");
         returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
     }
