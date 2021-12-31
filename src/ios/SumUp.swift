@@ -135,6 +135,13 @@ import SumUpSDK;
         returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
     }
     
+    @objc(test:)
+    func test(command: CDVInvokedUrlCommand) {
+        SumUpSDK.testIntegration();
+        let obj = createReturnObject(code: SUCCESS, message: "SumUp test integration executed. See console.");
+        returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
+    }
+
     @objc(closeConnection:)
     func closeConnection(command: CDVInvokedUrlCommand) {
         let obj = createReturnObject(code: 104, message: "Close connection is not available on iOS");
