@@ -26,20 +26,34 @@ import SumUpSDK;
     func login(command: CDVInvokedUrlCommand) {
         let affiliate_key = getAffiliateKey(); print(affiliate_key);
 
-        // Access token provided
         if((command.arguments != nil) && command.arguments.count > 0) {
-            var accessToken = command.arguments[0]; print(accessToken);
+            let accessToken = command.arguments[0]; print(accessToken);
 
-            SumUpSDK.login(withToken: accessToken as! String){ (success: Bool, error: Error?) in
-                if(success) {
-                    let obj = self.createReturnObject(code: self.SUCCESS, message: "User sucessfully logged in");
-                    self.returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
+            if (accessToken as! String != "") {
+                SumUpSDK.login(withToken: accessToken as! String){ (success: Bool, error: Error?) in
+                    if(success) {
+                        let obj = self.createReturnObject(code: self.SUCCESS, message: "User sucessfully logged in");
+                        self.returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
+                    }
+
+                    guard error == nil else {
+                        let obj = self.createReturnObject(code: self.LOGIN_ERROR, message: error!.localizedDescription);
+                        self.returnCordovaPluginResult(status: CDVCommandStatus_ERROR, obj: obj, command: command);
+                        return
+                    }
                 }
+            } else {
+                SumUpSDK.presentLogin(from: self.viewController, animated: true) { (success: Bool, error: Error?) in
+                    if(success) {
+                        let obj = self.createReturnObject(code: self.SUCCESS, message: "User sucessfully logged in");
+                        self.returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
+                    }
 
-                guard error == nil else {
-                    let obj = self.createReturnObject(code: self.LOGIN_ERROR, message: error!.localizedDescription);
-                    self.returnCordovaPluginResult(status: CDVCommandStatus_ERROR, obj: obj, command: command);
-                    return
+                    guard error == nil else {
+                        let obj = self.createReturnObject(code: self.LOGIN_ERROR, message: error!.localizedDescription);
+                        self.returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
+                        return
+                    }
                 }
             }
         } else {
