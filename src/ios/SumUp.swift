@@ -122,6 +122,8 @@ import SumUpSDK;
 
     @objc(prepare:)
     func prepare(command: CDVInvokedUrlCommand) {
+        let affiliate_key = getAffiliateKey(); print(affiliate_key);
+        SumUpSDK.setup(withAPIKey: affiliate_key);
         SumUpSDK.prepareForCheckout();
         let obj = createReturnObject(code: SUCCESS, message: "SumUp checkout prepared successfully");
         returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
