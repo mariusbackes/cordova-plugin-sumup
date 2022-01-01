@@ -102,7 +102,8 @@ declare module "cordova-sumup-plugin" {
    *
    * @export
    * @param {number} amount
-   * @param {string} currencycode
+   * @param {string} title (optional)
+   * @param {string} currencycode (optional)
    */
-  export function pay(amount: number, currencycode: string): void;
+  export function pay(amount: number, title?:string, currencycode?: string): void;
 }

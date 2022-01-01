@@ -322,9 +322,18 @@ public class SumUp extends CordovaPlugin {
             return false;
         }
 
+        String title;
+        try {
+            title = new String(args.get(1).toString());
+        } catch (Exception e) {
+            JSONObject obj = createReturnObject(CANT_PARSE_CURRENCY, "Can't parse title");
+            returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
+            return false;
+        }
+
         SumUpPayment.Currency currency;
         try {
-            currency = SumUpPayment.Currency.valueOf(args.get(1).toString());
+            currency = SumUpPayment.Currency.valueOf(args.get(2).toString());
         } catch (Exception e) {
             JSONObject obj = createReturnObject(CANT_PARSE_CURRENCY, "Can't parse currency");
             returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
@@ -334,6 +343,7 @@ public class SumUp extends CordovaPlugin {
         SumUpPayment payment = SumUpPayment.builder()
                 .total(amount)
                 .currency(currency)
+                .title(title)
                 .skipSuccessScreen()
                 .build();
 

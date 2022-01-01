@@ -154,9 +154,15 @@ import SumUpSDK;
     func pay(command: CDVInvokedUrlCommand) {
         var amount: NSDecimalNumber;
         var number: NSNumber;
+        var title: String;
+        var curr: String;
         
         if((command.arguments != nil) && command.arguments.count > 0) {
             number = command.arguments[0] as! NSNumber;
+            title = command.arguments[1] as! String;
+            curr = command.arguments[2] as! String;
+
+            // Convert amount to NSDecimalNumber safely
             amount = NSDecimalNumber(decimal: number.decimalValue);
 
             guard amount != NSDecimalNumber.zero else {
@@ -164,11 +170,12 @@ import SumUpSDK;
             }
             
             guard let currency = SumUpSDK.currentMerchant?.currencyCode else {
-                print("Not logged in");
+                let obj = createReturnObject(code: 117, message: "Not logged in");
+                returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
                 return
             }
             
-            let request = CheckoutRequest(total: amount, title: "test", currencyCode: currency);
+            let request = CheckoutRequest(total: amount, title: title, currencyCode: currency);
             
             SumUpSDK.checkout(with: request, from: self.viewController) { (result: CheckoutResult?, error: Error?) in
                 if let safeError = error as NSError? {
