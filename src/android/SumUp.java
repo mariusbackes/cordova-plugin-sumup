@@ -344,7 +344,7 @@ public class SumUp extends CordovaPlugin {
                 .total(amount)
                 .currency(currency)
                 .title(title)
-                .skipSuccessScreen()
+                //.skipSuccessScreen()
                 .build();
 
         Runnable runnable = () -> {
