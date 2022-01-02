@@ -197,7 +197,7 @@ import SumUpSDK;
                 }
 
                 if safeResult.success {
-                    let obj = self.createReturnObject(code: 118, message: "Payment success!");
+                    let obj = self.createPaymentReturnObject(result: safeResult);
                     self.returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
                     return
                 } else {
@@ -212,6 +212,24 @@ import SumUpSDK;
     // returns the affiliate key, which is provided in package.json
     private func getAffiliateKey() -> String {
         return (Bundle.main.infoDictionary?["SUMUP_API_KEY"] as? String)!;
+    }
+
+    private func createPaymentReturnObject(result: CheckoutResult) -> [AnyHashable : Any] {
+        let paymentResult: [AnyHashable : Any] = [
+            "transaction_code" : result.transactionCode,
+            "merchant_code": result.additionalInfo?["merchant_code"],
+            "amount": result.additionalInfo?["amount"],
+            "tip_amount": result.additionalInfo?["tip_amount"],
+            "vat_amount": result.additionalInfo?["vat_amount"],
+            "currency": result.additionalInfo?["currency"],
+            "status": result.additionalInfo?["status"],
+            "payment_type": result.additionalInfo?["payment_type"],
+            "entry_mode": result.additionalInfo?["entry_mode"],
+            "installments": result.additionalInfo?["installments"],
+            "card_type": result.additionalInfo?["card_type"],
+            "last_4_digits": result.additionalInfo?["last_4_digits"],
+        ];
+        return paymentResult;
     }
 
     private func createReturnObject(code: Int, message: String) -> [AnyHashable : Any] {
