@@ -20,9 +20,8 @@ import SumUpSDK;
     private let AUTH_SUCCESSFUL: Int = 114;
     private let CANT_PARSE_AMOUNT: Int = 115;
     private let CANT_PARSE_CURRENCY: Int = 116;
-    private let CANT_PARSE_TITLE: Int = 117;
-    private let PAYMENT_ERROR: Int = 118;
-    private let NO_AFFILIATE_KEY: Int = 119;
+    private let PAYMENT_ERROR: Int = 117;
+    private let NO_AFFILIATE_KEY: Int = 118;
 
     @objc(login:)
     func login(command: CDVInvokedUrlCommand) {

@@ -1,7 +1,3 @@
-# Not maintained
-
-I will no longer maintain this plugin. If you want to make changes, feel free to open a pull request. I will still review this changes and merge them if they are compatible.
-
 # Cordova plugin for SumUp SDK
 
 ## Description
@@ -10,6 +6,9 @@ This plugin provides the functionality from the SumUp API for the
 SumUp payment terminals.
 
 If something is wrong with the plugin feel free to open an issue or make a pull request.
+
+Many thanks to [Peter Meester](https://github.com/petermeester) for helping maintaining the plugin
+and adding support for iOS!
 
 ## Installation
 
@@ -183,10 +182,13 @@ Tries to close the connection to the card terminal.
 
 #### pay
 
-`SumUp.pay(amount: number, currencycode: string)`
+`SumUp.pay(amount: number, title?: string, currencyCode?: string)`
 
 Opens a native SumUp window to proceed a payment.
-Parameter **amount** and **currencycode** are required.
+Parameter **amount** is required.
+Parameter **title** and **currencyCode** are optional.
+If no `title` is provided, the title is empty.
+If no `currencyCode` is provided, the default currency from logged in user is chosen.
 If the Payment was successful it returns an SumUpPayment object with information about the payment.
 
 **NOTE:** At the moment just the required parameter amount and currencycode are available in this plugin.
@@ -239,6 +241,7 @@ SumUpPayment {
     payment_type: string;
     entry_mode: string;
     installments: number;
+    last_4_digits: number;
 }
 ```
 
@@ -338,9 +341,8 @@ Here are all additional codes:
 | 114  | Authenticate was successful            |
 | 115  | Can't parse amount                     |
 | 116  | Can't parse currency                   |
-| 117  | Can't parse title                      |
-| 118  | Payment error                          |
-| 119  | No affiliate key available             |
+| 117  | Payment error                          |
+| 118  | No affiliate key available             |
 
 ## Common problems
 
@@ -377,6 +379,7 @@ In **examples/ionic** is an example app with Ionic.
 
 ## Changelog
 
+- 2.0.0: Added support for iOS
 - 1.3.0: Added "last_4_digits" on payment and fixed an issue on login (Check missing accessToken)
 - 1.2.0: Provide the SUMUP_API_KEY (Affiliate Key) from JavaScript
 - 1.1.1: Updated SumUp Android SDK to version 3.2.1

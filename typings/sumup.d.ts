@@ -23,10 +23,10 @@ declare module "cordova-sumup-plugin" {
     installments: number;
     last_4_digits: number;
   }
-  
+
   export interface SumUpKeys {
-    accessToken?: string,
-    affiliateKey?: string
+    accessToken?: string;
+    affiliateKey?: string;
   }
 
   /**
@@ -103,7 +103,11 @@ declare module "cordova-sumup-plugin" {
    * @export
    * @param {number} amount
    * @param {string} title (optional)
-   * @param {string} currencycode (optional)
+   * @param {string} currencyCode (optional)
    */
-  export function pay(amount: number, title?: string, currencycode?: string): void;
+  export function pay(
+    amount: number,
+    title?: string,
+    currencyCode?: string
+  ): void;
 }

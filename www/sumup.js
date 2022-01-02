@@ -2,13 +2,7 @@ const CLASS = "SumUp";
 
 module.exports = {
   login: (sumUpKeys, success, failure) => {
-    cordova.exec(
-      success,
-      failure,
-      CLASS,
-      "login",
-      [sumUpKeys]
-    );
+    cordova.exec(success, failure, CLASS, "login", [sumUpKeys]);
   },
   auth: (accessToken, success, failure) => {
     cordova.exec(
@@ -40,7 +34,7 @@ module.exports = {
   closeConnection: (success, failure) => {
     cordova.exec(success, failure, CLASS, "closeConnection", []);
   },
-  pay: (amount, title, currencycode, success, failure) => {
-    cordova.exec(success, failure, CLASS, "pay", [amount, title, currencycode]);
-  }
+  pay: (amount, title, currencyCode, success, failure) => {
+    cordova.exec(success, failure, CLASS, "pay", [amount, title, currencyCode]);
+  },
 };

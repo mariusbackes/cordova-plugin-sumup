@@ -68,9 +68,8 @@ public class SumUp extends CordovaPlugin {
     private static final int AUTH_SUCCESSFUL = 114;
     private static final int CANT_PARSE_AMOUNT = 115;
     private static final int CANT_PARSE_CURRENCY = 116;
-    private static final int CANT_PARSE_TITLE = 117;
-    private static final int PAYMENT_ERROR = 118;
-    private static final int NO_AFFILIATE_KEY = 119;
+    private static final int PAYMENT_ERROR = 117;
+    private static final int NO_AFFILIATE_KEY = 118;
 
     private CallbackContext callback = null;
 
