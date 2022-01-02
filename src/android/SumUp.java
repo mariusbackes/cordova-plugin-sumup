@@ -47,6 +47,8 @@ public class SumUp extends CordovaPlugin {
     private static final int REQUEST_CODE_LOGIN = 1;
     private static final int REQUEST_CODE_PAYMENT = 2;
     private static final int REQUEST_CODE_PAYMENT_SETTINGS = 3;
+    private static final int REQUEST_CODE_SETUP = 4;
+    private static final int REQUEST_CODE_TEST = 5;
 
     // Response codes
     private static final int LOGIN_ERROR = 100;
@@ -66,8 +68,9 @@ public class SumUp extends CordovaPlugin {
     private static final int AUTH_SUCCESSFUL = 114;
     private static final int CANT_PARSE_AMOUNT = 115;
     private static final int CANT_PARSE_CURRENCY = 116;
-    private static final int PAYMENT_ERROR = 117;
-    private static final int NO_AFFILIATE_KEY = 118;
+    private static final int CANT_PARSE_TITLE = 117;
+    private static final int PAYMENT_ERROR = 118;
+    private static final int NO_AFFILIATE_KEY = 119;
 
     private CallbackContext callback = null;
 
@@ -268,6 +271,26 @@ public class SumUp extends CordovaPlugin {
         return true;
     }
 
+    // setup the SDK. Only available for iOS right now.. (TODO?)
+    private boolean setup(JSONArray args, CallbackContext callbackContext) {
+        callback = callbackContext;
+
+        JSONObject obj = createReturnObject(REQUEST_CODE_SETUP, "Not required for Android");
+        returnCordovaPluginResult(PluginResult.Status.OK, obj, false);
+        
+        return true;
+    }
+
+    // test the SDK integration. Only available for iOS right now.. (TODO?)
+    private boolean test(JSONArray args, CallbackContext callbackContext) {
+        callback = callbackContext;
+
+        JSONObject obj = createReturnObject(REQUEST_CODE_TEST, "Currently not available for Android");
+        returnCordovaPluginResult(PluginResult.Status.OK, obj, false);
+
+        return true;
+    }
+
     // closes the connection to the card reader
     private boolean closeConnection(JSONArray args, CallbackContext callbackContext) {
         callback = callbackContext;
@@ -310,19 +333,32 @@ public class SumUp extends CordovaPlugin {
             return false;
         }
 
+        String title;
+        try {
+            title = new String(args.get(1).toString());
+        } catch (Exception e) {
+            title = "";
+        }
+
         SumUpPayment.Currency currency;
         try {
-            currency = SumUpPayment.Currency.valueOf(args.get(1).toString());
+            currency = SumUpPayment.Currency.valueOf(args.get(2).toString());
         } catch (Exception e) {
-            JSONObject obj = createReturnObject(CANT_PARSE_CURRENCY, "Can't parse currency");
-            returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
-            return false;
+            if (!SumUpAPI.isLoggedIn()) {
+                // no merchant account currently logged in
+                JSONObject obj = createReturnObject(CANT_PARSE_CURRENCY, "Can't parse currency");
+                returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
+                return false;
+            } else {
+                currency = SumUpAPI.getCurrentMerchant().getCurrency();
+            }
         }
 
         SumUpPayment payment = SumUpPayment.builder()
                 .total(amount)
                 .currency(currency)
-                .skipSuccessScreen()
+                .title(title)
+                //.skipSuccessScreen()
                 .build();
 
         Runnable runnable = () -> {

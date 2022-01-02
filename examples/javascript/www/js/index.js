@@ -159,6 +159,7 @@ var app = {
   pay() {
     SumUp.pay(
       10.0,
+      "Title",
       "EUR",
       function(success) {
         console.log(success);

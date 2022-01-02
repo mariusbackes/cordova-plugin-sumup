@@ -31,10 +31,16 @@ module.exports = {
   prepare: (success, failure) => {
     cordova.exec(success, failure, CLASS, "prepare", []);
   },
+  setup: (success, failure) => {
+    cordova.exec(success, failure, CLASS, "setup", []);
+  },
+  test: (success, failure) => {
+    cordova.exec(success, failure, CLASS, "test", []);
+  },
   closeConnection: (success, failure) => {
     cordova.exec(success, failure, CLASS, "closeConnection", []);
   },
-  pay: (amount, currencycode, success, failure) => {
-    cordova.exec(success, failure, CLASS, "pay", [amount, currencycode]);
+  pay: (amount, title, currencycode, success, failure) => {
+    cordova.exec(success, failure, CLASS, "pay", [amount, title, currencycode]);
   }
 };
