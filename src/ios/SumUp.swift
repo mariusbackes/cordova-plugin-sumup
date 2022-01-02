@@ -20,8 +20,9 @@ import SumUpSDK;
     private let AUTH_SUCCESSFUL: Int = 114;
     private let CANT_PARSE_AMOUNT: Int = 115;
     private let CANT_PARSE_CURRENCY: Int = 116;
-    private let PAYMENT_ERROR: Int = 117;
-    private let PAYMENT_SUCCESS: Int = 118;
+    private let CANT_PARSE_TITLE: Int = 117;
+    private let PAYMENT_ERROR: Int = 118;
+    private let NO_AFFILIATE_KEY: Int = 119;
 
     @objc(login:)
     func login(command: CDVInvokedUrlCommand) {
@@ -75,7 +76,7 @@ import SumUpSDK;
 
     @objc(auth:)
     func auth(command: CDVInvokedUrlCommand) {
-        let obj = createReturnObject(code: 112, message: "Authenticate is not available on iOS");
+        let obj = createReturnObject(code: AUTH_ERROR, message: "Authenticate is not available on iOS");
         returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
     }
 
@@ -143,7 +144,7 @@ import SumUpSDK;
 
     @objc(closeConnection:)
     func closeConnection(command: CDVInvokedUrlCommand) {
-        let obj = createReturnObject(code: 104, message: "Close connection is not available on iOS");
+        let obj = createReturnObject(code: FAILED_CLOSE_CARD_READER_CONN, message: "Close connection is not available on iOS");
         returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
     }
 
@@ -168,7 +169,7 @@ import SumUpSDK;
             }
 
             guard var currency = SumUpSDK.currentMerchant?.currencyCode else {
-                let obj = createReturnObject(code: 102, message: "Not logged in");
+                let obj = createReturnObject(code: AUTH_ERROR, message: "Not logged in");
                 returnCordovaPluginResult(status: CDVCommandStatus_ERROR, obj: obj, command: command);
                 return
             }
@@ -182,17 +183,17 @@ import SumUpSDK;
             SumUpSDK.checkout(with: request, from: self.viewController) { (result: CheckoutResult?, error: Error?) in
                 if let safeError = error as NSError? {
                     if (safeError.domain == SumUpSDKErrorDomain) && (safeError.code == SumUpSDKError.accountNotLoggedIn.rawValue) {
-                        let obj = self.createReturnObject(code: 102, message: "Not logged in!");
+                        let obj = self.createReturnObject(code: self.AUTH_ERROR, message: "Not logged in!");
                         self.returnCordovaPluginResult(status: CDVCommandStatus_ERROR, obj: obj, command: command);
                     } else {
-                        let obj = self.createReturnObject(code: 117, message: "General error");
+                        let obj = self.createReturnObject(code: self.PAYMENT_ERROR, message: "General error");
                         self.returnCordovaPluginResult(status: CDVCommandStatus_ERROR, obj: obj, command: command);
                     }
                     return
                 }
 
                 guard let safeResult = result else {
-                    let obj = self.createReturnObject(code: 117, message: "No error, no result should happen");
+                    let obj = self.createReturnObject(code: self.PAYMENT_ERROR, message: "No error, no result should happen");
                     self.returnCordovaPluginResult(status: CDVCommandStatus_ERROR, obj: obj, command: command);
                     return
                 }
@@ -202,7 +203,7 @@ import SumUpSDK;
                     self.returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
                     return
                 } else {
-                    let obj = self.createReturnObject(code: 117, message: "Payment cancelled! No error, no success. No charge.");
+                    let obj = self.createReturnObject(code: self.PAYMENT_ERROR, message: "Payment cancelled! No error, no success. No charge.");
                     self.returnCordovaPluginResult(status: CDVCommandStatus_ERROR, obj: obj, command: command);
                     return
                 }

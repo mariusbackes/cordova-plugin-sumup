@@ -338,8 +338,9 @@ Here are all additional codes:
 | 114  | Authenticate was successful            |
 | 115  | Can't parse amount                     |
 | 116  | Can't parse currency                   |
-| 117  | Payment error                          |
-| 118  | No affiliate key available             |
+| 117  | Can't parse title                      |
+| 118  | Payment error                          |
+| 119  | No affiliate key available             |
 
 ## Common problems
 

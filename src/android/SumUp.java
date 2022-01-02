@@ -68,8 +68,9 @@ public class SumUp extends CordovaPlugin {
     private static final int AUTH_SUCCESSFUL = 114;
     private static final int CANT_PARSE_AMOUNT = 115;
     private static final int CANT_PARSE_CURRENCY = 116;
-    private static final int PAYMENT_ERROR = 117;
-    private static final int NO_AFFILIATE_KEY = 118;
+    private static final int CANT_PARSE_TITLE = 117;
+    private static final int PAYMENT_ERROR = 118;
+    private static final int NO_AFFILIATE_KEY = 119;
 
     private CallbackContext callback = null;
 
@@ -336,7 +337,7 @@ public class SumUp extends CordovaPlugin {
         try {
             title = new String(args.get(1).toString());
         } catch (Exception e) {
-            JSONObject obj = createReturnObject(CANT_PARSE_CURRENCY, "Can't parse title");
+            JSONObject obj = createReturnObject(CANT_PARSE_TITLE, "Can't parse title");
             returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
             return false;
         }
