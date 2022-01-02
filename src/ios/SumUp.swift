@@ -21,6 +21,7 @@ import SumUpSDK;
     private let CANT_PARSE_AMOUNT: Int = 115;
     private let CANT_PARSE_CURRENCY: Int = 116;
     private let PAYMENT_ERROR: Int = 117;
+    private let PAYMENT_SUCCESS: Int = 118;
 
     @objc(login:)
     func login(command: CDVInvokedUrlCommand) {
@@ -100,6 +101,7 @@ import SumUpSDK;
             if(success){
                 let obj = self.createReturnObject(code: self.SUCCESS, message: "Logout successful");
                 self.returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
+                return
             }
 
             guard error == nil else {
@@ -108,9 +110,6 @@ import SumUpSDK;
                 return
             }
         }
-
-        let obj = createReturnObject(code: 103, message: "Logout method will be implemented soon");
-        returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
     }
 
     @objc(isLoggedIn:)
@@ -129,7 +128,7 @@ import SumUpSDK;
 
     @objc(setup:)
     func setup(command: CDVInvokedUrlCommand) {
-        let affiliate_key = getAffiliateKey(); print(affiliate_key);
+        let affiliate_key = getAffiliateKey();
         SumUpSDK.setup(withAPIKey: affiliate_key);
         let obj = createReturnObject(code: SUCCESS, message: "SumUp setup executed. See console.");
         returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
@@ -166,53 +165,48 @@ import SumUpSDK;
             guard amount != NSDecimalNumber.zero else {
                 return
             }
-            
-            guard let currency = SumUpSDK.currentMerchant?.currencyCode else {
-                let obj = createReturnObject(code: 117, message: "Not logged in");
-                returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
-                return
+
+            if (curr != ""){
+                let currency = curr;
+            } else {
+                guard let currency = SumUpSDK.currentMerchant?.currencyCode else {
+                    let obj = createReturnObject(code: 102, message: "Not logged in");
+                    returnCordovaPluginResult(status: CDVCommandStatus_ERROR, obj: obj, command: command);
+                    return
+                }
             }
             
             let request = CheckoutRequest(total: amount, title: title, currencyCode: currency);
             
             SumUpSDK.checkout(with: request, from: self.viewController) { (result: CheckoutResult?, error: Error?) in
                 if let safeError = error as NSError? {
-                    print("error during checkout: \(safeError)")
-
                     if (safeError.domain == SumUpSDKErrorDomain) && (safeError.code == SumUpSDKError.accountNotLoggedIn.rawValue) {
-                        print("Not logged in");
+                        let obj = self.createReturnObject(code: 102, message: "Not logged in!");
+                        self.returnCordovaPluginResult(status: CDVCommandStatus_ERROR, obj: obj, command: command);
                     } else {
-                        print("General error");
+                        let obj = self.createReturnObject(code: 117, message: "General error");
+                        self.returnCordovaPluginResult(status: CDVCommandStatus_ERROR, obj: obj, command: command);
                     }
                     return
                 }
 
                 guard let safeResult = result else {
-                    print("no error and no result should not happen")
+                    let obj = self.createReturnObject(code: 117, message: "No error, no result should happen");
+                    self.returnCordovaPluginResult(status: CDVCommandStatus_ERROR, obj: obj, command: command);
                     return
                 }
 
-                print("result_transaction==\(String(describing: safeResult.transactionCode))")
-
                 if safeResult.success {
-                    print("success")
-                    var message = "Thank you - \(String(describing: safeResult.transactionCode))"
-
-                    if let info = safeResult.additionalInfo,
-                        let tipAmount = info["tip_amount"] as? Double, tipAmount > 0,
-                        let currencyCode = info["currency"] as? String {
-                        message = message.appending("\ntip: \(tipAmount) \(currencyCode)")
-                    }
-                    print(message);
+                    let obj = self.createReturnObject(code: 118, message: "Payment success!");
+                    self.returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
+                    return
                 } else {
-                    print("cancelled: no error, no success")
-                    print("No charge (cancelled)")
+                    let obj = self.createReturnObject(code: 117, message: "Payment cancelled! No error, no success. No charge.");
+                    self.returnCordovaPluginResult(status: CDVCommandStatus_ERROR, obj: obj, command: command);
+                    return
                 }
             };
         }
-
-        let obj = createReturnObject(code: 117, message: "Pay method will be implemented soon");
-        returnCordovaPluginResult(status: CDVCommandStatus_OK, obj: obj, command: command);
     }
 
     // returns the affiliate key, which is provided in package.json
