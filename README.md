@@ -9,9 +9,6 @@ I will no longer maintain this plugin. If you want to make changes, feel free to
 This plugin provides the functionality from the SumUp API for the
 SumUp payment terminals.
 
-At the moment the plugin is only available for **Android**.
-**iOS** support will be added soon.
-
 If something is wrong with the plugin feel free to open an issue or make a pull request.
 
 ## Installation
@@ -163,6 +160,20 @@ Checks whether the user is logged in or not and returns an object with the field
 
 Prepares the terminal for a payment. Checks whether the CardReader is ready to tramsmit
 and if an instance of the CardReaderManager is available.
+
+#### setup
+
+`SumUp.setup()`
+
+Will setup/initiate the SumUP SDK. Usely after App launch.
+For iOS, this is **required** before using other functions.
+
+#### test
+
+`SumUp.test()`
+
+Test the SumUp SDK integration.
+Currently only for iOS.
 
 #### closeConnection
 
