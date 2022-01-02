@@ -56,7 +56,7 @@ export class HomePage {
 
   private async pay(): Promise<void> {
     try {
-      this.sumupResult = await this.sumUp.pay(10.01, 'EUR');
+      this.sumupResult = await this.sumUp.pay(10.01, 'Title', 'EUR');
     } catch (e) {
       this.sumupResult = e;
     }
