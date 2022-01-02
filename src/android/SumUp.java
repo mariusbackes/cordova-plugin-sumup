@@ -337,18 +337,21 @@ public class SumUp extends CordovaPlugin {
         try {
             title = new String(args.get(1).toString());
         } catch (Exception e) {
-            JSONObject obj = createReturnObject(CANT_PARSE_TITLE, "Can't parse title");
-            returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
-            return false;
+            title = "";
         }
 
         SumUpPayment.Currency currency;
         try {
             currency = SumUpPayment.Currency.valueOf(args.get(2).toString());
         } catch (Exception e) {
-            JSONObject obj = createReturnObject(CANT_PARSE_CURRENCY, "Can't parse currency");
-            returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
-            return false;
+            if (!SumUpAPI.isLoggedIn()) {
+                // no merchant account currently logged in
+                JSONObject obj = createReturnObject(CANT_PARSE_CURRENCY, "Can't parse currency");
+                returnCordovaPluginResult(PluginResult.Status.ERROR, obj, true);
+                return false;
+            } else {
+                currency = SumUpAPI.getCurrentMerchant().getCurrency();
+            }
         }
 
         SumUpPayment payment = SumUpPayment.builder()
