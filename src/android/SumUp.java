@@ -47,6 +47,8 @@ public class SumUp extends CordovaPlugin {
     private static final int REQUEST_CODE_LOGIN = 1;
     private static final int REQUEST_CODE_PAYMENT = 2;
     private static final int REQUEST_CODE_PAYMENT_SETTINGS = 3;
+    private static final int REQUEST_CODE_SETUP = 4;
+    private static final int REQUEST_CODE_TEST = 5;
 
     // Response codes
     private static final int LOGIN_ERROR = 100;
@@ -271,12 +273,20 @@ public class SumUp extends CordovaPlugin {
     // setup the SDK. Only available for iOS right now.. (TODO?)
     private boolean setup(JSONArray args, CallbackContext callbackContext) {
         callback = callbackContext;
+
+        JSONObject obj = createReturnObject(REQUEST_CODE_SETUP, "Not required for Android");
+        returnCordovaPluginResult(PluginResult.Status.OK, obj, false);
+        
         return true;
     }
 
     // test the SDK integration. Only available for iOS right now.. (TODO?)
     private boolean test(JSONArray args, CallbackContext callbackContext) {
         callback = callbackContext;
+
+        JSONObject obj = createReturnObject(REQUEST_CODE_TEST, "Currently not available for Android");
+        returnCordovaPluginResult(PluginResult.Status.OK, obj, false);
+
         return true;
     }
 
