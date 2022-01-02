@@ -154,12 +154,9 @@ import SumUpSDK;
         var currency: String;
         var number: NSNumber;
         var title: String;
-        var curr: String;
         
         if((command.arguments != nil) && command.arguments.count > 0) {
             number = command.arguments[0] as! NSNumber;
-            title = command.arguments[1] as! String;
-            curr = command.arguments[2] as! String;
 
             // Convert amount to NSDecimalNumber safely
             amount = NSDecimalNumber(decimal: number.decimalValue);
@@ -168,14 +165,22 @@ import SumUpSDK;
                 return
             }
 
-            guard var currency = SumUpSDK.currentMerchant?.currencyCode else {
-                let obj = createReturnObject(code: AUTH_ERROR, message: "Not logged in");
-                returnCordovaPluginResult(status: CDVCommandStatus_ERROR, obj: obj, command: command);
-                return
+            if (command.arguments[1] as? String != nil){
+                title = command.arguments[1] as! String;
+            } else {
+                title = "";
             }
-
-            if (curr != ""){
-                currency = curr;
+            
+            if (command.arguments[2] as? String != nil){
+                currency = command.arguments[2] as! String;
+            } else {
+                if (SumUpSDK.currentMerchant?.currencyCode != nil) {
+                    currency = SumUpSDK.currentMerchant?.currencyCode as! String;
+                } else {
+                    let obj = createReturnObject(code: AUTH_ERROR, message: "Not logged in");
+                    returnCordovaPluginResult(status: CDVCommandStatus_ERROR, obj: obj, command: command);
+                    return
+                }
             }
             
             let request = CheckoutRequest(total: amount, title: title, currencyCode: currency);
