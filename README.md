@@ -38,13 +38,15 @@ Just write a mail to:
 
 Get global access to the plugin methods with the keyword **SumUp**.
 
-#### Ionic Native
+#### Awesome Cordova Plugins (previously "Ionic Native")
 
-If you are using Ionic , use the Ionic Native Wrapper. Install it with `npm install @ionic-native/sum-up`.
+If you are using Ionic , use the Awesome Cordova Plugins wrapper. Install it with `npm install @awesome-cordova-plugins/sum-up`.
 
 Import the plugin in your app.module:
 
 ```ts
+ import { SumUp } from "@awesome-cordova-plugins/sum-up/ngx";
+
  @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -60,7 +62,7 @@ Import the plugin in your app.module:
 And import and use it in every of your components:
 
 ```ts
-import { SumUp } from "@ionic-native/sum-up/ngx";
+import { SumUp } from "@awesome-cordova-plugins/sum-up/ngx";
 
 @Component({
   selector: "app-home",
